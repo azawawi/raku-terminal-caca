@@ -108,7 +108,8 @@ method circle(Int $x, Int $y, Int $radius, Str $char = '#') {
 method wait-for-keypress {
     die "Display handle not initialized" unless $!dp;
     my $ret = caca_get_event($!dp, CACA_EVENT_KEY_PRESS, 0, -1);
-    die "Invalid return result" unless $ret == 0;
+    #TODO handle timeout and match return type
+    return $ret;
 }
 
 method random-color {
