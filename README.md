@@ -21,10 +21,8 @@ $o.title("Window");
 
 # Draw some randomly-colored strings
 for 0..31 -> $i {
-    # Choose random drawing colours
-    my $fore-color = (1..CACA_WHITE).pick;
-    my $back-color = (1..CACA_WHITE).pick;
-    $o.color-ansi($fore-color, $back-color);
+    # Choose random drawing colors
+    $o.color-ansi($o.random-color, $o.random-color);
 
     # Draw a string
     $o.put-str(10, $i, "Hello world, from Perl 6!");

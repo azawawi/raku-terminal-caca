@@ -13,7 +13,7 @@ $o.title("Window");
 # Draw some randomly-colored strings
 constant MAX = 31;
 for 0..MAX -> $i {
-    # Choose random drawing colours
+    # Choose random drawing colors
     $o.color-ansi($o.random-color, $o.random-color);
 
     # Draw a string
