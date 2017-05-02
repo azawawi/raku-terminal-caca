@@ -5,8 +5,9 @@ use lib 'lib';
 use Term::Caca;
 
 # Initialise libcaca
-my $dp = caca_create_display(CacaDisplay.new);
-my $cv = caca_get_canvas($dp);
+my $NULL = CacaDisplay.new;
+my $dp   = caca_create_display($NULL);
+my $cv   = caca_get_canvas($dp);
 
 # Set window title
 caca_set_display_title($dp, "Window");
@@ -26,7 +27,7 @@ for 0..31 -> $i {
 caca_refresh_display($dp);
 
 # Wait for a key press event
-caca_get_event($dp, CACA_EVENT_KEY_PRESS, NULL, -1);
+caca_get_event($dp, CACA_EVENT_KEY_PRESS, $NULL, -1);
 
 # Clean up library
 caca_free_display($dp);

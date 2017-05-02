@@ -5,8 +5,6 @@ unit module Term::Caca;
 
 use NativeCall;
 
-constant NULL is export = 0;
-
 # Colors
 constant CACA_BLACK is export        = 0x00;
 constant CACA_BLUE is export         = 0x01;
