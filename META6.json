@@ -6,7 +6,8 @@
     "license"       : "WTFPL",
     "perl"          : "6.*",
     "provides"      : {
-        "Terminal::Caca" : "lib/Terminal/Caca.pm6"
+        "Terminal::Caca"      : "lib/Terminal/Caca.pm6",
+        "Terminal::Caca::Raw" : "lib/Terminal/Caca/Raw.pm6"
     },
     "repo-type"     : "git",
     "source-url"    : "git://github.com/azawawi/perl6-terminal-caca.git",

@@ -9,7 +9,7 @@ and OO-style Perl6ish kebab-case API.
 
 ```Perl6
 use v6;
-use Terminal::Caca;
+use Terminal::Caca::Raw;
 
 # Initialise libcaca
 my $dp = caca_create_display(CacaDisplay.new);
