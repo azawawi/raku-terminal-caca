@@ -107,3 +107,18 @@ sub caca_draw_line(CacaCanvas, int32, int32, int32, int32, uint32)
     returns int32
     is export
     is native(&caca-library) { * }
+
+sub caca_draw_thin_line(CacaCanvas, int32, int32, int32, int32)
+    returns int32
+    is export
+    is native(&caca-library) { * }
+
+sub caca_draw_box(CacaCanvas, int32, int32, int32, int32, uint32)
+    returns int32
+    is export
+    is native(&caca-library) { * }
+
+sub caca_draw_thin_box(CacaCanvas, int32, int32, int32, int32)
+    returns int32
+    is export
+    is native(&caca-library) { * }

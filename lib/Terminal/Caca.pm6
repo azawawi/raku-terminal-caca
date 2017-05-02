@@ -72,9 +72,29 @@ method put-str(Int $x, Int $y, Str $string) returns Int {
     caca_put_str($!cv, $x, $y, $string);
 }
 
-method draw-line(Int $x1, Int $y1, Int $x2, Int $y2, $char = '.') {
+method line(Int $x1, Int $y1, Int $x2, Int $y2, Str $char = '#') {
     die "Canvas handle not initialized" unless $!cv;
+    die "A single character is expected" unless $char.chars == 1;
     my $ret = caca_draw_line($!cv, $x1, $y1, $x2, $y2, $char.ord);
+    die "Invalid return result" unless $ret == 0;
+}
+
+method thin-line(Int $x1, Int $y1, Int $x2, Int $y2) {
+    die "Canvas handle not initialized" unless $!cv;
+    my $ret = caca_draw_thin_line($!cv, $x1, $y1, $x2, $y2);
+    die "Invalid return result" unless $ret == 0;
+}
+
+method box(Int $x1, Int $y1, Int $x2, Int $y2, Str $char = '#') {
+    die "Canvas handle not initialized" unless $!cv;
+    die "A single character is expected" unless $char.chars == 1;
+    my $ret = caca_draw_box($!cv, $x1, $y1, $x2, $y2, $char.ord);
+    die "Invalid return result" unless $ret == 0;
+}
+
+method thin-box(Int $x1, Int $y1, Int $x2, Int $y2) {
+    die "Canvas handle not initialized" unless $!cv;
+    my $ret = caca_draw_thin_box($!cv, $x1, $y1, $x2, $y2);
     die "Invalid return result" unless $ret == 0;
 }
 
