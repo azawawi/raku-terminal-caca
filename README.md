@@ -82,4 +82,4 @@ Ahmad M. Zawawi, azawawi on #perl6, https://github.com/azawawi/
 
 ## License
 
-WTFPL
+MIT

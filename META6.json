@@ -3,7 +3,7 @@
     "authors"       : [ "Ahmad M. Zawawi" ],
     "description"   : "Use libcaca (Colour AsCii Art library) API in Perl 6",
     "name"          : "Terminal::Caca",
-    "license"       : "WTFPL",
+    "license"       : "MIT",
     "perl"          : "6.*",
     "provides"      : {
         "Terminal::Caca"      : "lib/Terminal/Caca.pm6",
@@ -21,5 +21,5 @@
         "LibraryCheck",
         "Test"
     ],
-    "version"       : "0.0.1"
+    "version"       : "0.1.0"
 }
