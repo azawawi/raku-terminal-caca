@@ -72,4 +72,4 @@ Ahmad M. Zawawi, azawawi on #perl6, https://github.com/azawawi/
 
 ## License
 
-Do What The F*ck You Want To Public License
+WTFPL
