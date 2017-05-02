@@ -11,13 +11,18 @@ my $o  = Terminal::Caca.new;
 $o.title("Window");
 
 # Draw some randomly-colored strings
-for 0..31 -> $i {
+constant MAX = 31;
+for 0..MAX -> $i {
     # Choose random drawing colours
     $o.color-ansi($o.random-color, $o.random-color);
 
     # Draw a string
     $o.put-str(10, $i, "Hello world, from Perl 6!");
 }
+
+# Draw a totally random line
+$o.color-ansi(Yellow, Black);
+$o.draw-line((^MAX).pick, (^MAX).pick, (^MAX).pick, (^MAX).pick);
 
 # Refresh display
 $o.refresh();

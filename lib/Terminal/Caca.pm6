@@ -10,7 +10,7 @@ use Terminal::Caca::Raw;
 has CacaDisplay $!dp;
 has CacaCanvas $!cv;
 
-enum CacaColor (
+enum CacaColor is export (
     Black        => CACA_BLACK,
     Blue         => CACA_BLUE,
     Green        => CACA_GREEN,
@@ -70,6 +70,12 @@ method color-ansi($fore-color = White, $back-color = Black) {
 method put-str(Int $x, Int $y, Str $string) returns Int {
     die "Canvas handle not initialized" unless $!cv;
     caca_put_str($!cv, $x, $y, $string);
+}
+
+method draw-line(Int $x1, Int $y1, Int $x2, Int $y2, $char = '.') {
+    die "Canvas handle not initialized" unless $!cv;
+    my $ret = caca_draw_line($!cv, $x1, $y1, $x2, $y2, $char.ord);
+    die "Invalid return result" unless $ret == 0;
 }
 
 method wait-for-keypress {

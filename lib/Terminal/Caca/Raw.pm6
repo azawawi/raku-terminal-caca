@@ -102,3 +102,8 @@ sub caca_get_version()
     returns Str
     is export
     is native(&caca-library) { * }
+
+sub caca_draw_line(CacaCanvas, int32, int32, int32, int32, uint32)
+    returns int32
+    is export
+    is native(&caca-library) { * }
