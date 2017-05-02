@@ -2,6 +2,11 @@
 
 Term::Caca - Use libcaca (Colour AsCii Art library) API in Perl 6
 
+The library is currently **experimental**. The plan is to provide ``::NativeCall``
+and OO-style Perl6ish kebab-case API.
+
+## Example
+
 ```Perl6
 use v6;
 use Term::Caca;
@@ -33,6 +38,8 @@ caca_get_event($dp, CACA_EVENT_KEY_PRESS, NULL, -1);
 # Clean up library
 caca_free_display($dp);
 ```
+
+For more examples, please see the [examples](examples) folder.
 
 ## Installation
 
