@@ -11,10 +11,9 @@ you need to access raw API for any reason, please use `Terminal::Caca::Raw`.
 
 ```Perl6
 use v6;
-use Terminal::Caca::Raw;
 use Terminal::Caca;
 
-# Initialise libcaca
+# Initialize library
 my $o  = Terminal::Caca.new;
 
 # Set window title

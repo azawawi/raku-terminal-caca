@@ -4,16 +4,13 @@ use v6;
 use lib 'lib';
 use Terminal::Caca::Raw;
 
-# Initialise libcaca
+# Initialize library
 my $NULL = CacaDisplay.new;
 my $dp   = caca_create_display($NULL);
 my $cv   = caca_get_canvas($dp);
 
 # Set window title
 caca_set_display_title($dp, "Window");
-
-# Choose drawing colours
-caca_set_color_ansi($cv, CACA_BLACK, CACA_WHITE);
 
 # Draw some strings
 for 0..31 -> $i {
