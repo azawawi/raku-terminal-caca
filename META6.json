@@ -1,0 +1,24 @@
+{
+    "auth"          : "github:azawawi",
+    "authors"       : [ "Ahmad M. Zawawi" ],
+    "description"   : "Use libcaca (Colour AsCii Art library) API in Perl 6",
+    "name"          : "Term::Caca",
+    "license"       : "WTFPL",
+    "perl"          : "6.*",
+    "provides"      : {
+        "Term::Caca" : "lib/Term/Caca.pm6"
+    },
+    "repo-type"     : "git",
+    "source-url"    : "git://github.com/azawawi/perl6-term-caca.git",
+    "tags"          : [
+        "CLI",
+        "Terminal",
+        "NativeCall",
+        "ASCII-Art"
+    ],
+    "test-depends"  : [
+        "LibraryCheck",
+        "Test"
+    ],
+    "version"       : "0.0.1"
+}

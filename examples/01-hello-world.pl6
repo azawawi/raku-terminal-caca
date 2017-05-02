@@ -1,8 +1,5 @@
-# Term::Caca
+#!/usr/bin/env perl6
 
-Term::Caca - Use libcaca (Colour AsCii Art library) API in Perl 6
-
-```Perl6
 use v6;
 use lib 'lib';
 use Term::Caca;
@@ -33,6 +30,3 @@ caca_get_event($dp, CACA_EVENT_KEY_PRESS, NULL, -1);
 
 # Clean up library
 caca_free_display($dp);
-```
-
-## LICENSE
