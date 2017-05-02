@@ -2,7 +2,7 @@
 
 use v6;
 use lib 'lib';
-use Term::Caca;
+use Terminal::Caca;
 
 # Initialise libcaca
 my $NULL = CacaDisplay.new;

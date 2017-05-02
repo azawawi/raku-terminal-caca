@@ -1,6 +1,6 @@
-# Term::Caca [![Build Status](https://travis-ci.org/azawawi/perl6-term-caca.svg?branch=master)](https://travis-ci.org/azawawi/perl6-term-caca)
+# Terminal::Caca [![Build Status](https://travis-ci.org/azawawi/perl6-term-caca.svg?branch=master)](https://travis-ci.org/azawawi/perl6-term-caca)
 
-Term::Caca - Use libcaca (Colour AsCii Art library) API in Perl 6
+Terminal::Caca - Use libcaca (Colour AsCii Art library) API in Perl 6
 
 The library is currently **experimental**. The plan is to provide ``::NativeCall``
 and OO-style Perl6ish kebab-case API.
@@ -9,7 +9,7 @@ and OO-style Perl6ish kebab-case API.
 
 ```Perl6
 use v6;
-use Term::Caca;
+use Terminal::Caca;
 
 # Initialise libcaca
 my $dp = caca_create_display(CacaDisplay.new);
@@ -56,7 +56,7 @@ $ brew install libcaca
 
 * Using zef (a module management tool bundled with Rakudo Star):
 ```
-$ zef install Term::Caca
+$ zef install Terminal::Caca
 ```
 
 ## Testing

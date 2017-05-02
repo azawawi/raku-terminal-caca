@@ -1,7 +1,7 @@
 
 use v6;
 
-unit module Term::Caca;
+unit module Terminal::Caca;
 
 use NativeCall;
 
