@@ -1,4 +1,4 @@
-# Terminal::Caca [![Build Status](https://travis-ci.org/azawawi/perl6-term-caca.svg?branch=master)](https://travis-ci.org/azawawi/perl6-term-caca)
+# Terminal::Caca [![Build Status](https://travis-ci.org/azawawi/perl6-terminal-caca.svg?branch=master)](https://travis-ci.org/azawawi/perl6-terminal-caca)
 
 Terminal::Caca - Use libcaca (Colour AsCii Art library) API in Perl 6
 
