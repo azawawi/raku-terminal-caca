@@ -87,3 +87,18 @@ sub caca_free_display(CacaDisplay)
     returns int32
     is export
     is native(&caca-library) { * }
+
+sub caca_get_display_width(CacaDisplay)
+    returns int32
+    is export
+    is native(&caca-library) { * }
+
+sub caca_get_display_height(CacaDisplay)
+    returns int32
+    is export
+    is native(&caca-library) { * }
+
+sub caca_get_version()
+    returns Str
+    is export
+    is native(&caca-library) { * }

@@ -45,6 +45,10 @@ method cleanup {
     die "Invalid return result" unless $ret == 0;
 }
 
+submethod version returns Str {
+    return caca_get_version;
+}
+
 method refresh {
     die "Display handle not initialized" unless $!dp;
     my $ret = caca_refresh_display($!dp);
