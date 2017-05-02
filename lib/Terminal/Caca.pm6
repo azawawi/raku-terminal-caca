@@ -98,6 +98,13 @@ method thin-box(Int $x1, Int $y1, Int $x2, Int $y2) {
     die "Invalid return result" unless $ret == 0;
 }
 
+method circle(Int $x, Int $y, Int $radius, Str $char = '#') {
+    die "Canvas handle not initialized" unless $!cv;
+    die "A single character is expected" unless $char.chars == 1;
+    my $ret = caca_draw_circle($!cv, $x, $y, $radius, $char.ord);
+    die "Invalid return result" unless $ret == 0;
+}
+
 method wait-for-keypress {
     die "Display handle not initialized" unless $!dp;
     my $ret = caca_get_event($!dp, CACA_EVENT_KEY_PRESS, 0, -1);

@@ -20,21 +20,25 @@ for 0..MAX -> $i {
     $o.put-str(10, $i, "Hello world, from Perl 6!");
 }
 
-# Draw a totally random line using provided character
+# Draw a totally random line using the given character
 $o.color-ansi(Yellow, Black);
-$o.line((^MAX).pick, (^MAX).pick, (^MAX).pick, (^MAX).pick, '#');
+$o.line((^MAX).pick, (^MAX).pick, (^MAX).pick, (^MAX).pick, 'L');
 
 # Draw a totally thin line using ASCII art
 $o.color-ansi(LightMagenta, Black);
 $o.thin-line((^MAX).pick, (^MAX).pick, (^MAX).pick, (^MAX).pick);
 
-# Draw a totally random box using provided character
+# Draw a totally random box using the given character
 $o.color-ansi(White, Blue);
-$o.box((^MAX).pick, (^MAX).pick, (^MAX).pick, (^MAX).pick, '1');
+$o.box((^MAX).pick, (^MAX).pick, (^MAX).pick, (^MAX).pick, 'B');
 
 # Draw a totally random thin box using ASCII art
 $o.color-ansi(LightGreen, Black);
 $o.thin-box((^MAX).pick, (^MAX).pick, (^MAX).pick, (^MAX).pick);
+
+# Draw a totally random circle using the given character
+$o.color-ansi(LightGreen, Black);
+$o.circle((^MAX).pick, (^MAX).pick, (^MAX).pick, 'C');
 
 # Refresh display
 $o.refresh();
