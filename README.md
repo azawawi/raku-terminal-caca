@@ -2,41 +2,44 @@
 
 Terminal::Caca - Use libcaca (Colour AsCii Art library) API in Perl 6
 
-The library is currently **experimental**. The plan is to provide ``::NativeCall``
-and OO-style Perl6ish kebab-case API.
+**NOTE:** The library is currently **experimental**. You have been warned :)
+
+Normally you would use the safer object-oriented API via `Terminal::Caca`. If
+you need to access raw API for any reason, please use `Terminal::Caca::Raw`.
 
 ## Example
 
 ```Perl6
 use v6;
 use Terminal::Caca::Raw;
+use Terminal::Caca;
 
 # Initialise libcaca
-my $dp = caca_create_display(CacaDisplay.new);
-my $cv = caca_get_canvas($dp);
+my $o  = Terminal::Caca.new;
 
 # Set window title
-caca_set_display_title($dp, "Window");
+$o.title("Window");
 
-# Choose drawing colours
-caca_set_color_ansi($cv, CACA_BLACK, CACA_WHITE);
-
-# Draw some strings
+# Draw some randomly-colored strings
 for 0..31 -> $i {
-    caca_put_str($cv, 10, $i, "Hello world, from Perl 6!");
+    # Choose random drawing colours
     my $fore-color = (1..CACA_WHITE).pick;
     my $back-color = (1..CACA_WHITE).pick;
-    caca_set_color_ansi($cv, $fore-color, $back-color);
+    $o.color-ansi($fore-color, $back-color);
+
+    # Draw a string
+    $o.put-str(10, $i, "Hello world, from Perl 6!");
 }
 
 # Refresh display
-caca_refresh_display($dp);
+$o.refresh();
 
 # Wait for a key press event
-caca_get_event($dp, CACA_EVENT_KEY_PRESS, NULL, -1);
+$o.wait-for-keypress();
 
-# Clean up library
-caca_free_display($dp);
+LEAVE {
+    $o.cleanup if $o;
+}
 ```
 
 For more examples, please see the [examples](examples) folder.
