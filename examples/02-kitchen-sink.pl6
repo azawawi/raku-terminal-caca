@@ -42,6 +42,14 @@ given my $o = Terminal::Caca.new {
     .thin-triangle(r, r, r, r, r, r);
     .fill-triangle(r, r, r, r, r, r, 'T');
 
+    # Draw randomly-colored polyline types
+    my @points = ( ($_, r) for ^MAX );
+    .color(light-blue, black);
+    .polyline(@points, 'P');
+    @points = ( ($_, r) for ^MAX );
+    .color(yellow, blue);
+    .thin-polyline(@points);
+
     # Draw randomly-colored and positioned text
     .color(.random-color, .random-color);
     .text(r, r, "Hello world from Perl 6!");

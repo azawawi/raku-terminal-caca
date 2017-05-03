@@ -4,6 +4,7 @@ use v6;
 # Cooked API :)
 unit class Terminal::Caca;
 
+use NativeCall;
 use Terminal::Caca::Raw;
 
 # Fields
@@ -192,6 +193,39 @@ method fill-triangle(Int $x1, Int $y1, Int $x2, Int $y2, Int $x3, Int $y3, Str $
     self._check_canvas_handle;
     self._ensure_one_char($char);
     my $ret = caca_fill_triangle($!cv, $x1, $y1, $x2, $y2, $x3, $y3, $char.ord);
+    self._check_return_result($ret);
+}
+
+method polyline(@points, Str $char = '#') {
+    self._check_canvas_handle;
+    self._ensure_one_char($char);
+
+    # Copy x/y values to C Arrays
+    my $size     = @points.elems;
+    my $x-carray = CArray[int32].new;
+    my $y-carray = CArray[int32].new;
+    for 0..$size - 1 -> $i  {
+        $x-carray[$i] = @points[$i][0];
+        $y-carray[$i] = @points[$i][1];
+    }
+
+    my $ret = caca_draw_polyline($!cv, $x-carray, $y-carray, $size, $char.ord);
+    self._check_return_result($ret);
+}
+
+method thin-polyline(@points) {
+    self._check_canvas_handle;
+
+    # Copy x/y values to C Arrays
+    my $size     = @points.elems;
+    my $x-carray = CArray[int32].new;
+    my $y-carray = CArray[int32].new;
+    for 0..$size - 1 -> $i  {
+        $x-carray[$i] = @points[$i][0];
+        $y-carray[$i] = @points[$i][1];
+    }
+
+    my $ret = caca_draw_thin_polyline($!cv, $x-carray, $y-carray, $size);
     self._check_return_result($ret);
 }
 
