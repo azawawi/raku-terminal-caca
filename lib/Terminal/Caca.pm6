@@ -10,39 +10,73 @@ use Terminal::Caca::Raw;
 has CacaDisplay $!dp;
 has CacaCanvas $!cv;
 
+# Color Enumeration
 enum CacaColor is export (
-    Black        => CACA_BLACK,
-    Blue         => CACA_BLUE,
-    Green        => CACA_GREEN,
-    Cyan         => CACA_CYAN,
-    Red          => CACA_RED,
-    Magenta      => CACA_MAGENTA,
-    Brown        => CACA_BROWN,
-    LightGray    => CACA_LIGHTGRAY,
-    DarkGray     => CACA_DARKGRAY,
-    LightBlue    => CACA_LIGHTBLUE,
-    LightGreen   => CACA_LIGHTGREEN,
-    LightCyan    => CACA_LIGHTCYAN,
-    LightRed     => CACA_LIGHTRED,
-    LightMagenta => CACA_LIGHTMAGENTA,
-    Yellow       => CACA_YELLOW,
-    White        => CACA_WHITE,
-    Default      => CACA_DEFAULT,
-    Transparent  => CACA_TRANSPARENT,
+    black         => CACA_BLACK,
+    blue          => CACA_BLUE,
+    green         => CACA_GREEN,
+    cyan          => CACA_CYAN,
+    red           => CACA_RED,
+    magenta       => CACA_MAGENTA,
+    brown         => CACA_BROWN,
+    light-gray    => CACA_LIGHTGRAY,
+    dark-gray     => CACA_DARKGRAY,
+    light-blue    => CACA_LIGHTBLUE,
+    light-green   => CACA_LIGHTGREEN,
+    light-cyan    => CACA_LIGHTCYAN,
+    light-red     => CACA_LIGHTRED,
+    light-magenta => CACA_LIGHTMAGENTA,
+    yellow        => CACA_YELLOW,
+    white         => CACA_WHITE,
+    color-default => CACA_DEFAULT,
+    transparent   => CACA_TRANSPARENT,
 );
 
+enum CacaEvent is export (
+     event-none    => CACA_EVENT_NONE,          #  No event.
+     key-press     => CACA_EVENT_KEY_PRESS,     #  A key was pressed.
+     key-release   => CACA_EVENT_KEY_RELEASE,   #  A key was released.
+     mouse-press   => CACA_EVENT_MOUSE_PRESS,   #  A mouse button was pressed.
+     mouse-release => CACA_EVENT_MOUSE_RELEASE, #  A mouse button was released.
+     mouse-motion  => CACA_EVENT_MOUSE_MOTION,  #  The mouse was moved.
+     resize        => CACA_EVENT_RESIZE,        #  The window was resized.
+     quit          => CACA_EVENT_QUIT,          #  The user requested to quit.
+     event-any     => CACA_EVENT_ANY,           #  Any event.
+);
+
+#
+# Error checking utility methods
+#
+method _check_display_handle {
+    die "Display handle not initialized" unless $!dp;
+}
+
+method _check_canvas_handle {
+    die "Canvas handle not initialized" unless $!cv;
+}
+
+method _check_return_result($ret) {
+    die "Invalid return result" unless $ret == 0;
+}
+
+method _ensure_one_char(Str $char) {
+    warn "A single character is expected" unless $char.chars == 1;
+}
+
+# Constructor
 submethod BUILD {
     my $NULL = CacaDisplay.new;
     $!dp     = caca_create_display($NULL);
-    die "Could create display handle" unless $!dp;
+    self._check_display_handle;
     $!cv     = caca_get_canvas($!dp);
-    die "Could create canvas handle"  unless $!cv;
+    self._check_canvas_handle;
 }
 
+# This should be called on scope exit to perform cleanup
 method cleanup {
-    die "Display handle not initialized" unless $!dp;
+    self._check_display_handle;
     my $ret = caca_free_display($!dp);
-    die "Invalid return result" unless $ret == 0;
+    warn "Invalid return result" if $ret != 0;
 }
 
 submethod version returns Str {
@@ -50,85 +84,82 @@ submethod version returns Str {
 }
 
 method refresh {
-    die "Display handle not initialized" unless $!dp;
+    self._check_display_handle;
     my $ret = caca_refresh_display($!dp);
-    die "Invalid return result" unless $ret == 0;
-    self
+    self._check_return_result($ret);
 }
 
-method title($title) {
-    die "Display handle not initialized" unless $!dp;
+method title(Str $title) {
+    self._check_display_handle;
     my $ret = caca_set_display_title($!dp, $title);
-    die "Invalid return result" unless $ret == 0;
-    self
+    self._check_return_result($ret);
 }
 
-method color($fore-color = White, $back-color = Black) {
-    die "Canvas handle not initialized" unless $!cv;
+method color(
+    CacaColor $fore-color = white,
+    CacaColor $back-color = black)
+{
+    self._check_canvas_handle;
     my $ret = caca_set_color_ansi($!cv, $fore-color, $back-color);
-    die "Invalid return result" unless $ret == 0;
-    self
+    self._check_return_result($ret);
 }
 
-method text(Int $x, Int $y, Str $string) {
-    die "Canvas handle not initialized" unless $!cv;
-    caca_put_str($!cv, $x, $y, $string);
-    #TODO how to handle return retype of caca_put_str
-    self
+method text(Int $x, Int $y, Str $string) returns Int {
+    self._check_canvas_handle;
+    return caca_put_str($!cv, $x, $y, $string);
 }
 
 method line(Int $x1, Int $y1, Int $x2, Int $y2, Str $char = '#') {
-    die "Canvas handle not initialized" unless $!cv;
-    die "A single character is expected" unless $char.chars == 1;
+    self._check_canvas_handle;
+    self._ensure_one_char($char);
     my $ret = caca_draw_line($!cv, $x1, $y1, $x2, $y2, $char.ord);
-    die "Invalid return result" unless $ret == 0;
-    self
+    self._check_return_result($ret);
 }
 
 method thin-line(Int $x1, Int $y1, Int $x2, Int $y2) {
-    die "Canvas handle not initialized" unless $!cv;
+    self._check_canvas_handle;
     my $ret = caca_draw_thin_line($!cv, $x1, $y1, $x2, $y2);
-    die "Invalid return result" unless $ret == 0;
-    self
+    self._check_return_result($ret);
 }
 
 method box(Int $x1, Int $y1, Int $x2, Int $y2, Str $char = '#') {
-    die "Canvas handle not initialized" unless $!cv;
-    die "A single character is expected" unless $char.chars == 1;
+    self._check_canvas_handle;
+    self._ensure_one_char($char);
     my $ret = caca_draw_box($!cv, $x1, $y1, $x2, $y2, $char.ord);
-    die "Invalid return result" unless $ret == 0;
-    self
+    self._check_return_result($ret);
 }
 
 method thin-box(Int $x1, Int $y1, Int $x2, Int $y2) {
-    die "Canvas handle not initialized" unless $!cv;
+    self._check_canvas_handle;
     my $ret = caca_draw_thin_box($!cv, $x1, $y1, $x2, $y2);
-    die "Invalid return result" unless $ret == 0;
-    self
+    self._check_return_result($ret);
 }
 
 method circle(Int $x, Int $y, Int $radius, Str $char = '#') {
-    die "Canvas handle not initialized" unless $!cv;
-    die "A single character is expected" unless $char.chars == 1;
+    self._check_canvas_handle;
+    self._ensure_one_char($char);
     my $ret = caca_draw_circle($!cv, $x, $y, $radius, $char.ord);
-    die "Invalid return result" unless $ret == 0;
-    self
+    self._check_return_result($ret);
 }
 
 method clear {
-    die "Canvas handle not initialized" unless $!cv;
+    self._check_canvas_handle;
     my $ret = caca_clear_canvas($!cv);
-    die "Invalid return result" unless $ret == 0;
-    self
+    self._check_return_result($ret);
 }
 
 method wait-for-keypress {
-    die "Display handle not initialized" unless $!dp;
+    self._check_display_handle;
     my $ret = caca_get_event($!dp, CACA_EVENT_KEY_PRESS, 0, -1);
     #TODO how to handle timeout and match return type
-    self;
 }
 
-method random-color {
-    return (Black..White).pick;
+method wait-for-event(CacaEvent $event = CacaEvent.key-press) returns Int {
+    self._check_display_handle;
+    #TODO pass timeout and handle return type
+    caca_get_event($!dp, $event, 0, -1);
+}
+
+method random-color returns CacaColor {
+    return CacaColor((black..white).pick);
 }
