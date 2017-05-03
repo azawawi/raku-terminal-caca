@@ -175,6 +175,26 @@ method fill-ellipse(Int $x, Int $y, Int $x-radius, Int $y-radius, Str $char = '#
     self._check_return_result($ret);
 }
 
+method triangle(Int $x1, Int $y1, Int $x2, Int $y2, Int $x3, Int $y3, Str $char = '#') {
+    self._check_canvas_handle;
+    self._ensure_one_char($char);
+    my $ret = caca_draw_triangle($!cv, $x1, $y1, $x2, $y2, $x3, $y3, $char.ord);
+    self._check_return_result($ret);
+}
+
+method thin-triangle(Int $x1, Int $y1, Int $x2, Int $y2, Int $x3, Int $y3) {
+    self._check_canvas_handle;
+    my $ret = caca_draw_thin_triangle($!cv, $x1, $y1, $x2, $y2, $x3, $y3);
+    self._check_return_result($ret);
+}
+
+method fill-triangle(Int $x1, Int $y1, Int $x2, Int $y2, Int $x3, Int $y3, Str $char = '#') {
+    self._check_canvas_handle;
+    self._ensure_one_char($char);
+    my $ret = caca_fill_triangle($!cv, $x1, $y1, $x2, $y2, $x3, $y3, $char.ord);
+    self._check_return_result($ret);
+}
+
 method clear {
     self._check_canvas_handle;
     my $ret = caca_clear_canvas($!cv);
