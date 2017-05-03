@@ -127,3 +127,8 @@ sub caca_draw_circle(CacaCanvas, int32, int32, int32, uint32)
     returns int32
     is export
     is native(&caca-library) { * }
+
+sub caca_clear_canvas(CacaCanvas)
+    returns int32
+    is export
+    is native(&caca-library) { * }

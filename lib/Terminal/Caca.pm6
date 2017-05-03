@@ -115,6 +115,13 @@ method circle(Int $x, Int $y, Int $radius, Str $char = '#') {
     self
 }
 
+method clear {
+    die "Canvas handle not initialized" unless $!cv;
+    my $ret = caca_clear_canvas($!cv);
+    die "Invalid return result" unless $ret == 0;
+    self
+}
+
 method wait-for-keypress {
     die "Display handle not initialized" unless $!dp;
     my $ret = caca_get_event($!dp, CACA_EVENT_KEY_PRESS, 0, -1);
