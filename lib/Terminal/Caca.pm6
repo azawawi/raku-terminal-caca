@@ -209,7 +209,7 @@ method polyline(@points, Str $char = '#') {
         $y-carray[$i] = @points[$i][1];
     }
 
-    my $ret = caca_draw_polyline($!cv, $x-carray, $y-carray, $size, $char.ord);
+    my $ret = caca_draw_polyline($!cv, $x-carray, $y-carray, $size - 1, $char.ord);
     self._check_return_result($ret);
 }
 
@@ -225,7 +225,7 @@ method thin-polyline(@points) {
         $y-carray[$i] = @points[$i][1];
     }
 
-    my $ret = caca_draw_thin_polyline($!cv, $x-carray, $y-carray, $size);
+    my $ret = caca_draw_thin_polyline($!cv, $x-carray, $y-carray, $size - 1);
     self._check_return_result($ret);
 }
 
