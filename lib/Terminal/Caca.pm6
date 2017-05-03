@@ -149,6 +149,26 @@ method circle(Int $x, Int $y, Int $radius, Str $char = '#') {
     self._check_return_result($ret);
 }
 
+method ellipse(Int $x, Int $y, Int $x-radius, Int $y-radius, Str $char = '#') {
+    self._check_canvas_handle;
+    self._ensure_one_char($char);
+    my $ret = caca_draw_ellipse($!cv, $x, $y, $x-radius, $y-radius, $char.ord);
+    self._check_return_result($ret);
+}
+
+method thin-ellipse(Int $x, Int $y, Int $x-radius, Int $y-radius) {
+    self._check_canvas_handle;
+    my $ret = caca_draw_thin_ellipse($!cv, $x, $y, $x-radius, $y-radius);
+    self._check_return_result($ret);
+}
+
+method fill-ellipse(Int $x, Int $y, Int $x-radius, Int $y-radius, Str $char = '#') {
+    self._check_canvas_handle;
+    self._ensure_one_char($char);
+    my $ret = caca_fill_ellipse($!cv, $x, $y, $x-radius, $y-radius, $char.ord);
+    self._check_return_result($ret);
+}
+
 method clear {
     self._check_canvas_handle;
     my $ret = caca_clear_canvas($!cv);

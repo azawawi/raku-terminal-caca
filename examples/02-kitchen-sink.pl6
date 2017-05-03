@@ -24,28 +24,26 @@ given $o {
         .text(random-number, $i, "Hello world from Perl 6!");
     }
 
+    # Draw random line types
     .color(yellow, black);
     .line(random-number, random-number, random-number, random-number, 'L');
-
-    # Draw a random-positioned thin line using ASCII art
-    .color(light-magenta, black);
     .thin-line(random-number, random-number, random-number, random-number);
 
-    # Draw a random-positioned box using the given character
-    .color(white, blue);
-    .box(random-number, random-number, random-number, random-number, 'B');
-
-    # Draw a random-positioned thin box using ASCII art
+    # Draw random box types
     .color(light-green, black);
+    .box(random-number, random-number, random-number, random-number, 'B');
     .thin-box(random-number, random-number, random-number, random-number);
+    .fill-box(random-number, random-number, random-number, random-number, 'B');
 
-    # Draw a random-positioned circle using the given character
+    # Draw random circle types
     .color(light-red, black);
     .circle(random-number, random-number, random-number, 'C');
 
-    # Draw a random-positioned filled box using the given character
+    # Draw random ellipse types
     .color(white, blue);
-    .fill-box(random-number, random-number, random-number, random-number, ' ');
+    .ellipse(random-number, random-number, random-number, random-number, 'E');
+    .thin-ellipse(random-number, random-number, random-number, random-number);
+    .fill-ellipse(random-number, random-number, random-number, random-number, 'E');
 
     # Refresh display and wait for a key press
     .refresh;
