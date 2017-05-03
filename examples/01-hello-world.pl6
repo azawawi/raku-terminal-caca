@@ -36,7 +36,7 @@ $o  .color(Yellow, Black)
     .thin-box(random-number, random-number, random-number, random-number)
 
     # Draw a random circle using the given character
-    .color(LightGreen, Black)
+    .color(LightRed, Black)
     .circle(random-number, random-number, random-number, 'C')
 
     # Refresh display and wait for a key press
