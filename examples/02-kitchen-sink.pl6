@@ -46,7 +46,7 @@ given $o {
     .fill-triangle(r, r, r, r, r, r, 'T');
 
     # Draw randomly-colored and positioned text
-    .color($o.random-color, $o.random-color);
+    .color(.random-color, .random-color);
     .text(r, r, "Hello world from Perl 6!");
 
     # Refresh display and wait for a key press
