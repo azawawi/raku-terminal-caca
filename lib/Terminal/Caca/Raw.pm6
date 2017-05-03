@@ -123,6 +123,11 @@ sub caca_draw_thin_box(CacaCanvas, int32, int32, int32, int32)
     is export
     is native(&caca-library) { * }
 
+sub caca_draw_cp437_box(CacaCanvas, int32, int32, int32, int32)
+    returns int32
+    is export
+    is native(&caca-library) { * }
+
 sub caca_draw_circle(CacaCanvas, int32, int32, int32, uint32)
     returns int32
     is export
@@ -160,7 +165,7 @@ __extern int caca_draw_thin_polyline(caca_canvas_t *, int const x[],
                                       int const y[], int);
 
 
-__extern int caca_draw_cp437_box(caca_canvas_t *, int, int, int, int);
+
 
 __extern int caca_draw_triangle(caca_canvas_t *, int, int, int, int, int,
                                  int, uint32_t);

@@ -135,6 +135,12 @@ method thin-box(Int $x, Int $y, Int $width, Int $height) {
     self._check_return_result($ret);
 }
 
+method cp437-box(Int $x, Int $y, Int $width, Int $height) {
+    self._check_canvas_handle;
+    my $ret = caca_draw_cp437_box($!cv, $x, $y, $width, $height);
+    self._check_return_result($ret);
+}
+
 method fill-box(Int $x, Int $y, Int $width, Int $height, Str $char = '#') {
     self._check_canvas_handle;
     self._ensure_one_char($char);
