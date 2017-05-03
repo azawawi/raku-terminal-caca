@@ -154,7 +154,7 @@ method wait-for-keypress {
     #TODO how to handle timeout and match return type
 }
 
-method wait-for-event(CacaEvent $event = CacaEvent.key-press) returns Int {
+method wait-for-event(CacaEvent $event = key-press) returns Int {
     self._check_display_handle;
     #TODO pass timeout and handle return type
     caca_get_event($!dp, $event, 0, -1);
