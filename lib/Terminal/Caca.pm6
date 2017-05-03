@@ -46,30 +46,35 @@ method cleanup {
 }
 
 submethod version returns Str {
-    return caca_get_version;
+    caca_get_version
 }
 
 method refresh {
     die "Display handle not initialized" unless $!dp;
     my $ret = caca_refresh_display($!dp);
     die "Invalid return result" unless $ret == 0;
+    self
 }
 
 method title($title) {
     die "Display handle not initialized" unless $!dp;
     my $ret = caca_set_display_title($!dp, $title);
     die "Invalid return result" unless $ret == 0;
+    self
 }
 
-method color-ansi($fore-color = White, $back-color = Black) {
+method color($fore-color = White, $back-color = Black) {
     die "Canvas handle not initialized" unless $!cv;
     my $ret = caca_set_color_ansi($!cv, $fore-color, $back-color);
     die "Invalid return result" unless $ret == 0;
+    self
 }
 
-method put-str(Int $x, Int $y, Str $string) returns Int {
+method text(Int $x, Int $y, Str $string) {
     die "Canvas handle not initialized" unless $!cv;
     caca_put_str($!cv, $x, $y, $string);
+    #TODO how to handle return retype of caca_put_str
+    self
 }
 
 method line(Int $x1, Int $y1, Int $x2, Int $y2, Str $char = '#') {
@@ -77,12 +82,14 @@ method line(Int $x1, Int $y1, Int $x2, Int $y2, Str $char = '#') {
     die "A single character is expected" unless $char.chars == 1;
     my $ret = caca_draw_line($!cv, $x1, $y1, $x2, $y2, $char.ord);
     die "Invalid return result" unless $ret == 0;
+    self
 }
 
 method thin-line(Int $x1, Int $y1, Int $x2, Int $y2) {
     die "Canvas handle not initialized" unless $!cv;
     my $ret = caca_draw_thin_line($!cv, $x1, $y1, $x2, $y2);
     die "Invalid return result" unless $ret == 0;
+    self
 }
 
 method box(Int $x1, Int $y1, Int $x2, Int $y2, Str $char = '#') {
@@ -90,12 +97,14 @@ method box(Int $x1, Int $y1, Int $x2, Int $y2, Str $char = '#') {
     die "A single character is expected" unless $char.chars == 1;
     my $ret = caca_draw_box($!cv, $x1, $y1, $x2, $y2, $char.ord);
     die "Invalid return result" unless $ret == 0;
+    self
 }
 
 method thin-box(Int $x1, Int $y1, Int $x2, Int $y2) {
     die "Canvas handle not initialized" unless $!cv;
     my $ret = caca_draw_thin_box($!cv, $x1, $y1, $x2, $y2);
     die "Invalid return result" unless $ret == 0;
+    self
 }
 
 method circle(Int $x, Int $y, Int $radius, Str $char = '#') {
@@ -103,13 +112,14 @@ method circle(Int $x, Int $y, Int $radius, Str $char = '#') {
     die "A single character is expected" unless $char.chars == 1;
     my $ret = caca_draw_circle($!cv, $x, $y, $radius, $char.ord);
     die "Invalid return result" unless $ret == 0;
+    self
 }
 
 method wait-for-keypress {
     die "Display handle not initialized" unless $!dp;
     my $ret = caca_get_event($!dp, CACA_EVENT_KEY_PRESS, 0, -1);
-    #TODO handle timeout and match return type
-    return $ret;
+    #TODO how to handle timeout and match return type
+    self;
 }
 
 method random-color {

@@ -4,47 +4,44 @@ use v6;
 use lib 'lib';
 use Terminal::Caca;
 
-# Initialize library
-my $o  = Terminal::Caca.new;
-
-# Set window title
-$o.title("Window");
+# Initialize library and set the window title
+my $o = Terminal::Caca.new
+        .title("Window");
 
 # Draw some randomly-colored strings
 constant MAX = 31;
 for 0..MAX -> $i {
-    # Choose random drawing colors
-    $o.color-ansi($o.random-color, $o.random-color);
-
-    # Draw a string
-    $o.put-str(10, $i, "Hello world, from Perl 6!");
+    # Draw random colored text
+    $o.color($o.random-color, $o.random-color)
+      .text(10, $i, "Hello world, from Perl 6!")
 }
 
-# Draw a totally random line using the given character
-$o.color-ansi(Yellow, Black);
-$o.line((^MAX).pick, (^MAX).pick, (^MAX).pick, (^MAX).pick, 'L');
+# Helper subroutine that returns a random number
+my sub random-color { (^MAX).pick }
 
-# Draw a totally thin line using ASCII art
-$o.color-ansi(LightMagenta, Black);
-$o.thin-line((^MAX).pick, (^MAX).pick, (^MAX).pick, (^MAX).pick);
+# Draw a random line using the given character
+$o  .color(Yellow, Black)
+    .line(random-color, random-color, random-color, random-color, 'L')
 
-# Draw a totally random box using the given character
-$o.color-ansi(White, Blue);
-$o.box((^MAX).pick, (^MAX).pick, (^MAX).pick, (^MAX).pick, 'B');
+    # Draw a thin line using ASCII art
+    .color(LightMagenta, Black)
+    .thin-line(random-color, random-color, random-color, random-color)
 
-# Draw a totally random thin box using ASCII art
-$o.color-ansi(LightGreen, Black);
-$o.thin-box((^MAX).pick, (^MAX).pick, (^MAX).pick, (^MAX).pick);
+    # Draw a random box using the given character
+    .color(White, Blue)
+    .box(random-color, random-color, random-color, random-color, 'B')
 
-# Draw a totally random circle using the given character
-$o.color-ansi(LightGreen, Black);
-$o.circle((^MAX).pick, (^MAX).pick, (^MAX).pick, 'C');
+    # Draw a random thin box using ASCII art
+    .color(LightGreen, Black)
+    .thin-box(random-color, random-color, random-color, random-color)
 
-# Refresh display
-$o.refresh();
+    # Draw a random circle using the given character
+    .color(LightGreen, Black)
+    .circle(random-color, random-color, random-color, 'C')
 
-# Wait for a key press
-$o.wait-for-keypress();
+    # Refresh display and wait for a key press
+    .refresh
+    .wait-for-keypress;
 
 LEAVE {
     $o.cleanup if $o;
