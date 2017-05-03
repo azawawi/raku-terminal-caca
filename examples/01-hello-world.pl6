@@ -3,13 +3,10 @@ use lib 'lib';
 use Terminal::Caca;
 
 # Initialize library
-my $o = Terminal::Caca.new;
-
-given $o {
+given my $o = Terminal::Caca.new {
     # Set window title
     .title("Perl 6 rocks");
 
-    
     # Say hello world
     my $text = ' Hello world, from Perl 6! ';
     .color(white, blue);
@@ -23,8 +20,9 @@ given $o {
 
     # Wait for a key press event
     .wait-for-keypress;
-}
 
-LEAVE {
-    $o.cleanup if $o;
+    # Cleanup on scope exit
+    LEAVE {
+        $o.cleanup;
+    }
 }

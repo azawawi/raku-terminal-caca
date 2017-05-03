@@ -5,10 +5,7 @@ use lib 'lib';
 use Terminal::Caca;
 
 # Initialize library
-my $o = Terminal::Caca.new;
-
-# Draw a random-positioned line using the given character
-given $o {
+given my $o = Terminal::Caca.new {
 
     # Helper subroutine that returns a random number
     constant MAX = 31;
@@ -52,8 +49,10 @@ given $o {
     # Refresh display and wait for a key press
     .refresh;
     .wait-for-keypress;
-}
 
-LEAVE {
-    $o.cleanup if $o;
+    # Cleanup on scope exit
+    LEAVE {
+        .cleanup;
+    }
+
 }
