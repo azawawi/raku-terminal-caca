@@ -122,16 +122,16 @@ method thin-line(Int $x1, Int $y1, Int $x2, Int $y2) {
     self._check_return_result($ret);
 }
 
-method box(Int $x1, Int $y1, Int $x2, Int $y2, Str $char = '#') {
+method box(Int $x, Int $y, Int $width, Int $height, Str $char = '#') {
     self._check_canvas_handle;
     self._ensure_one_char($char);
-    my $ret = caca_draw_box($!cv, $x1, $y1, $x2, $y2, $char.ord);
+    my $ret = caca_draw_box($!cv, $x, $y, $width, $height, $char.ord);
     self._check_return_result($ret);
 }
 
-method thin-box(Int $x1, Int $y1, Int $x2, Int $y2) {
+method thin-box(Int $x, Int $y, Int $width, Int $height) {
     self._check_canvas_handle;
-    my $ret = caca_draw_thin_box($!cv, $x1, $y1, $x2, $y2);
+    my $ret = caca_draw_thin_box($!cv, $x, $y, $width, $height);
     self._check_return_result($ret);
 }
 

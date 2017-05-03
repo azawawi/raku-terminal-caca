@@ -13,23 +13,26 @@ you need to access raw API for any reason, please use `Terminal::Caca::Raw`.
 use v6;
 use Terminal::Caca;
 
-# Initialize library and set window title
-my $obj = Terminal::Caca.new
-    .title("Window");
+# Initialize library
+my $o = Terminal::Caca.new;
 
-# Draw some randomly-colored strings
-for 0..31 -> $i {
-    # Draw random colored text
-    $obj.color($obj.random-color, $obj.random-color)
-        .text(10, $i, "Hello world, from Perl 6!")
+given $o {
+    # Set window title
+    .title("Perl 6 rocks");
+
+    # Say hello world
+    .color(blue, black);
+    .text(10, $i, "Hello world, from Perl 6!")
+
+    # Refresh display
+    .refresh;
+
+    # Wait for a key press event
+    .wait-for-keypress;
 }
 
-# Refresh display & Wait for a key press event
-$obj.refresh
-    .wait-for-keypress;
-
 LEAVE {
-    $obj.cleanup if $obj;
+    $o.cleanup if $o;
 }
 ```
 
