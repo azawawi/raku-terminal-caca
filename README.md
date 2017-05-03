@@ -13,29 +13,23 @@ you need to access raw API for any reason, please use `Terminal::Caca::Raw`.
 use v6;
 use Terminal::Caca;
 
-# Initialize library
-my $o  = Terminal::Caca.new;
-
-# Set window title
-$o.title("Window");
+# Initialize library and set window title
+my $obj = Terminal::Caca.new
+    .title("Window");
 
 # Draw some randomly-colored strings
 for 0..31 -> $i {
-    # Choose random drawing colors
-    $o.color-ansi($o.random-color, $o.random-color);
-
-    # Draw a string
-    $o.put-str(10, $i, "Hello world, from Perl 6!");
+    # Draw random colored text
+    $obj.color($obj.random-color, $obj.random-color)
+        .text(10, $i, "Hello world, from Perl 6!")
 }
 
-# Refresh display
-$o.refresh();
-
-# Wait for a key press event
-$o.wait-for-keypress();
+# Refresh display & Wait for a key press event
+$obj.refresh
+    .wait-for-keypress;
 
 LEAVE {
-    $o.cleanup if $o;
+    $obj.cleanup if $obj;
 }
 ```
 
