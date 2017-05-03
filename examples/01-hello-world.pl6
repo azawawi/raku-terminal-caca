@@ -17,27 +17,27 @@ for 0..MAX -> $i {
 }
 
 # Helper subroutine that returns a random number
-my sub random-color { (^MAX).pick }
+my sub random-number { (^MAX).pick }
 
 # Draw a random line using the given character
 $o  .color(Yellow, Black)
-    .line(random-color, random-color, random-color, random-color, 'L')
+    .line(random-number, random-number, random-number, random-number, 'L')
 
     # Draw a thin line using ASCII art
     .color(LightMagenta, Black)
-    .thin-line(random-color, random-color, random-color, random-color)
+    .thin-line(random-number, random-number, random-number, random-number)
 
     # Draw a random box using the given character
     .color(White, Blue)
-    .box(random-color, random-color, random-color, random-color, 'B')
+    .box(random-number, random-number, random-number, random-number, 'B')
 
     # Draw a random thin box using ASCII art
     .color(LightGreen, Black)
-    .thin-box(random-color, random-color, random-color, random-color)
+    .thin-box(random-number, random-number, random-number, random-number)
 
     # Draw a random circle using the given character
     .color(LightGreen, Black)
-    .circle(random-color, random-color, random-color, 'C')
+    .circle(random-number, random-number, random-number, 'C')
 
     # Refresh display and wait for a key press
     .refresh
