@@ -43,6 +43,10 @@ given $o {
     .color(light-red, black);
     .circle(random-number, random-number, random-number, 'C');
 
+    # Draw a random-positioned filled box using the given character
+    .color(white, blue);
+    .fill-box(random-number, random-number, random-number, random-number, ' ');
+
     # Refresh display and wait for a key press
     .refresh;
     .wait-for-keypress;

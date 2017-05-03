@@ -135,6 +135,13 @@ method thin-box(Int $x, Int $y, Int $width, Int $height) {
     self._check_return_result($ret);
 }
 
+method fill-box(Int $x, Int $y, Int $width, Int $height, Str $char = '#') {
+    self._check_canvas_handle;
+    self._ensure_one_char($char);
+    my $ret = caca_fill_box($!cv, $x, $y, $width, $height, $char.ord);
+    self._check_return_result($ret);
+}
+
 method circle(Int $x, Int $y, Int $radius, Str $char = '#') {
     self._check_canvas_handle;
     self._ensure_one_char($char);
