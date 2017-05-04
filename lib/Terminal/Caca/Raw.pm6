@@ -197,3 +197,43 @@ sub caca_set_cursor(CacaDisplay, int32)
     returns int32
     is export
     is native(&caca-library) { * }
+
+sub caca_invert(CacaCanvas)
+    returns int32
+    is export
+    is native(&caca-library) { * }
+
+sub caca_flip(CacaCanvas)
+    returns int32
+    is export
+    is native(&caca-library) { * }
+
+sub caca_flop(CacaCanvas)
+    returns int32
+    is export
+    is native(&caca-library) { * }
+
+sub caca_rotate_180(CacaCanvas)
+    returns int32
+    is export
+    is native(&caca-library) { * }
+
+sub caca_rotate_left(CacaCanvas)
+    returns int32
+    is export
+    is native(&caca-library) { * }
+
+sub caca_rotate_right(CacaCanvas)
+    returns int32
+    is export
+    is native(&caca-library) { * }
+
+sub caca_stretch_left(CacaCanvas)
+    returns int32
+    is export
+    is native(&caca-library) { * }
+
+sub caca_stretch_right(CacaCanvas)
+    returns int32
+    is export
+    is native(&caca-library) { * }

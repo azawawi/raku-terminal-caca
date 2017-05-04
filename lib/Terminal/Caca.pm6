@@ -282,3 +282,43 @@ method cursor(Bool $enable) {
     self._check_display_handle;
     caca_set_cursor($!dp, $enable ?? 1 !! 0)
 }
+
+method invert {
+     self._check_canvas_handle;
+     caca_invert($!cv)
+}
+
+method flip {
+    self._check_canvas_handle;
+    caca_flip($!cv)
+}
+
+method flop {
+    self._check_canvas_handle;
+    caca_flop($!cv)
+}
+
+method rotate180 {
+    self._check_canvas_handle;
+    caca_rotate_180($!cv)
+}
+
+method rotate-left {
+    self._check_canvas_handle;
+    caca_rotate_left($!cv)
+}
+
+method rotate-right {
+    self._check_canvas_handle;
+    caca_rotate_right($!cv)
+}
+
+method stretch-left {
+    self._check_canvas_handle;
+    caca_stretch_left($!cv)
+}
+
+method stretch-right {
+    self._check_canvas_handle;
+    caca_stretch_right($!cv)
+}
