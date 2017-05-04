@@ -48,6 +48,10 @@ class CacaDisplay
     is repr('CPointer')
     is export { * }
 
+class CacaDither
+    is repr('CPointer')
+    is export { * }
+
 sub caca_create_display(CacaCanvas)
     returns CacaDisplay
     is export
@@ -234,6 +238,22 @@ sub caca_stretch_left(CacaCanvas)
     is native(&caca-library) { * }
 
 sub caca_stretch_right(CacaCanvas)
+    returns int32
+    is export
+    is native(&caca-library) { * }
+
+sub caca_create_dither(int32, int32, int32, int32, uint32, uint32, uint32, uint32)
+    returns CacaDither
+    is export
+    is native(&caca-library) { * }
+
+sub caca_dither_bitmap(CacaCanvas, int32, int32, int32, int32,
+                          CacaDither, CArray[uint8])
+    returns int32
+    is export
+    is native(&caca-library) { * }
+
+sub caca_free_dither(CacaDither)
     returns int32
     is export
     is native(&caca-library) { * }
