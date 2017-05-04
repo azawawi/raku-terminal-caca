@@ -248,12 +248,32 @@ method random-color returns CacaColor {
     CacaColor((black..white).pick)
 }
 
-method width() returns Int {
+method width {
     self._check_display_handle;
-    caca_get_display_width($!dp)
+    caca_get_display_width( $!dp )
 }
 
-method height() returns Int {
+method height {
     self._check_display_handle;
-    caca_get_display_height($!dp)
+    caca_get_display_height( $!dp )
+}
+
+method size {
+    width  => self.width,
+    height => self.height
+}
+
+method mouse-x {
+    self._check_display_handle,
+    caca_get_mouse_x($!dp)
+}
+
+method mouse-y {
+    self._check_display_handle,
+    caca_get_mouse_y($!dp)
+}
+
+method mouse-position {
+    x => self.mouse-x,
+    y => self.mouse-y
 }

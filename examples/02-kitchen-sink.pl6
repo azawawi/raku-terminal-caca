@@ -53,6 +53,8 @@ given my $o = Terminal::Caca.new {
     # Draw randomly-colored and positioned text
     .color(.random-color, .random-color);
     .text(r, r, "Hello world from Perl 6!");
+    .text(r, r, "Mouse position: " ~ .mouse-position.perl);
+    .text(r, r, "Window Size: "    ~ .size.perl);
 
     # Refresh display and wait for a key press
     .refresh;

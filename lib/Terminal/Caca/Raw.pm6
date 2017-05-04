@@ -98,6 +98,16 @@ sub caca_get_display_height(CacaDisplay)
     is export
     is native(&caca-library) { * }
 
+sub caca_get_mouse_x(CacaDisplay)
+    returns int32
+    is export
+    is native(&caca-library) { * }
+
+sub caca_get_mouse_y(CacaDisplay)
+    returns int32
+    is export
+    is native(&caca-library) { * }
+
 sub caca_get_version()
     returns Str
     is export
