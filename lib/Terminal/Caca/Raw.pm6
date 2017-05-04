@@ -197,11 +197,3 @@ sub caca_set_cursor(CacaDisplay, int32)
     returns int32
     is export
     is native(&caca-library) { * }
-
-=begin TODO
-
-__extern int caca_fill_triangle_textured(caca_canvas_t *cv,
-                                         int coords[6],
-                                         caca_canvas_t *tex,
-                                         float uv[6]);
-=end TODO
