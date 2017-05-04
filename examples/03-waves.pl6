@@ -11,17 +11,18 @@ given my $o = Terminal::Caca.new {
     .title("Sine/Cosine Wave Animation");
 
     # Draw randomly-colored polyline types
-    for 0..90 -> $i {
+    for ^100 -> $i {
         .color(white, black);
         .clear;
         my @sin;
         my @cos;
         constant MAX = 16;
+        my $range    = $i % MAX;
         for 0..100 -> $x {
-            my $xt       = ($x + $i) * 5;
+            my $xt      = ($x + $i) * 5;
             my $radians = $xt * pi / 180.0;
-            my $y-sin       = Int(sin($radians) * MAX + MAX);
-            my $y-cos       = Int(cos($radians) * MAX + MAX);
+            my $y-sin   = Int(sin($radians) * $range + MAX);
+            my $y-cos   = Int(cos($radians) * $range + MAX);
             @sin.push( ($x, $y-sin) );
             @cos.push( ($x, $y-cos) )
         }
