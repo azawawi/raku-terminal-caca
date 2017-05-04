@@ -63,22 +63,22 @@ given my $o = Terminal::Caca.new {
         ( @p[5], @p[1], @p[2], @p[6], ),
         ( @p[4], @p[0], @p[3], @p[7], ),
         ( @p[6], @p[2], @p[3], @p[7], ),
-        ( @p[4], @p[0], @p[7], @p[3], );
+        ( @p[4], @p[0], @p[3], @p[7], );
 
-    for 0..360*2 -> $angle {
+    for ^359 -> $angle {
         .clear;
         for @sides -> @side {
             my @points;
             for @side -> @point {
-                my $x         = @point[0] - 2 + 1;
-                my $y         = @point[1] - 2 + 1;
-                my $z         = @point[2] - 2 + 1;
-                #($x, $y, $z)  = rotate3d-x($x, $y, $z, $angle);
+                my $x         = @point[0] * 2 - 1;
+                my $y         = @point[1] * 2 - 1;
+                my $z         = @point[2] * 2 - 1;
+                ($x, $y, $z)  = rotate3d-x($x, $y, $z, $angle);
                 ($x, $y, $z)  = rotate3d-y($x, $y, $z, $angle);
                 ($x, $y, $z)  = rotate3d-z($x, $y, $z, $angle);
                 my ($px, $py) = to_2d($x, $y, $z);
-                $px           = $px * 10 + 30;
-                $py           = $py * 5 + 10;
+                $px           = $px * 15 + 40;
+                $py           = $py * 7 + 15;
                 @points.push( ($px.Int, $py.Int ));
             }
             @points.push( @points[0] );
@@ -87,15 +87,14 @@ given my $o = Terminal::Caca.new {
             .color(white, black);
             .thin-polyline(@points);
             .color(green, black);
+            my $i = 0;
             for @points -> $point {
-                .text($point[0], $point[1], '+');
+                .text($point[0], $point[1], "" ~ $i++);
             }
         }
         .refresh;
-        sleep 0.005;
+        sleep 0.042 / 2;
     }
-
-    .wait-for-keypress;
 
     # Cleanup on scope exit
     LEAVE {
