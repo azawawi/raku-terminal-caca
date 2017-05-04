@@ -1,7 +1,6 @@
 
 use v6;
 
-# Cooked API :)
 unit class Terminal::Caca;
 
 use NativeCall;
@@ -9,7 +8,7 @@ use Terminal::Caca::Raw;
 
 # Fields
 has CacaDisplay $!dp;
-has CacaCanvas $!cv;
+has CacaCanvas  $!cv;
 
 # Color Enumeration
 enum CacaColor is export (
@@ -49,19 +48,19 @@ enum CacaEvent is export (
 # Error checking utility methods
 #
 method _check_display_handle {
-    die "Display handle not initialized" unless $!dp;
+    die "Display handle not initialized" unless $!dp
 }
 
 method _check_canvas_handle {
-    die "Canvas handle not initialized" unless $!cv;
+    die "Canvas handle not initialized" unless $!cv
 }
 
 method _check_return_result($ret) {
-    die "Invalid return result" unless $ret == 0;
+    die "Invalid return result" unless $ret == 0
 }
 
 method _ensure_one_char(Str $char) {
-    warn "A single character is expected" unless $char.chars == 1;
+    warn "A single character is expected" unless $char.chars == 1
 }
 
 # Constructor
@@ -70,14 +69,14 @@ submethod BUILD {
     $!dp     = caca_create_display($NULL);
     self._check_display_handle;
     $!cv     = caca_get_canvas($!dp);
-    self._check_canvas_handle;
+    self._check_canvas_handle
 }
 
 # This should be called on scope exit to perform cleanup
 method cleanup {
     self._check_display_handle;
     my $ret = caca_free_display($!dp);
-    warn "Invalid return result" if $ret != 0;
+    warn "Invalid return result" if $ret != 0
 }
 
 submethod version returns Str {
@@ -87,13 +86,13 @@ submethod version returns Str {
 method refresh {
     self._check_display_handle;
     my $ret = caca_refresh_display($!dp);
-    self._check_return_result($ret);
+    self._check_return_result($ret)
 }
 
 method title(Str $title) {
     self._check_display_handle;
     my $ret = caca_set_display_title($!dp, $title);
-    self._check_return_result($ret);
+    self._check_return_result($ret)
 }
 
 method color(
@@ -102,98 +101,98 @@ method color(
 {
     self._check_canvas_handle;
     my $ret = caca_set_color_ansi($!cv, $fore-color, $back-color);
-    self._check_return_result($ret);
+    self._check_return_result($ret)
 }
 
 method text(Int $x, Int $y, Str $string) returns Int {
     self._check_canvas_handle;
-    return caca_put_str($!cv, $x, $y, $string);
+    caca_put_str($!cv, $x, $y, $string)
 }
 
 method line(Int $x1, Int $y1, Int $x2, Int $y2, Str $char = '#') {
     self._check_canvas_handle;
     self._ensure_one_char($char);
     my $ret = caca_draw_line($!cv, $x1, $y1, $x2, $y2, $char.ord);
-    self._check_return_result($ret);
+    self._check_return_result($ret)
 }
 
 method thin-line(Int $x1, Int $y1, Int $x2, Int $y2) {
     self._check_canvas_handle;
     my $ret = caca_draw_thin_line($!cv, $x1, $y1, $x2, $y2);
-    self._check_return_result($ret);
+    self._check_return_result($ret)
 }
 
 method box(Int $x, Int $y, Int $width, Int $height, Str $char = '#') {
     self._check_canvas_handle;
     self._ensure_one_char($char);
     my $ret = caca_draw_box($!cv, $x, $y, $width, $height, $char.ord);
-    self._check_return_result($ret);
+    self._check_return_result($ret)
 }
 
 method thin-box(Int $x, Int $y, Int $width, Int $height) {
     self._check_canvas_handle;
     my $ret = caca_draw_thin_box($!cv, $x, $y, $width, $height);
-    self._check_return_result($ret);
+    self._check_return_result($ret)
 }
 
 method cp437-box(Int $x, Int $y, Int $width, Int $height) {
     self._check_canvas_handle;
     my $ret = caca_draw_cp437_box($!cv, $x, $y, $width, $height);
-    self._check_return_result($ret);
+    self._check_return_result($ret)
 }
 
 method fill-box(Int $x, Int $y, Int $width, Int $height, Str $char = '#') {
     self._check_canvas_handle;
     self._ensure_one_char($char);
     my $ret = caca_fill_box($!cv, $x, $y, $width, $height, $char.ord);
-    self._check_return_result($ret);
+    self._check_return_result($ret)
 }
 
 method circle(Int $x, Int $y, Int $radius, Str $char = '#') {
     self._check_canvas_handle;
     self._ensure_one_char($char);
     my $ret = caca_draw_circle($!cv, $x, $y, $radius, $char.ord);
-    self._check_return_result($ret);
+    self._check_return_result($ret)
 }
 
 method ellipse(Int $x, Int $y, Int $x-radius, Int $y-radius, Str $char = '#') {
     self._check_canvas_handle;
     self._ensure_one_char($char);
     my $ret = caca_draw_ellipse($!cv, $x, $y, $x-radius, $y-radius, $char.ord);
-    self._check_return_result($ret);
+    self._check_return_result($ret)
 }
 
 method thin-ellipse(Int $x, Int $y, Int $x-radius, Int $y-radius) {
     self._check_canvas_handle;
     my $ret = caca_draw_thin_ellipse($!cv, $x, $y, $x-radius, $y-radius);
-    self._check_return_result($ret);
+    self._check_return_result($ret)
 }
 
 method fill-ellipse(Int $x, Int $y, Int $x-radius, Int $y-radius, Str $char = '#') {
     self._check_canvas_handle;
     self._ensure_one_char($char);
     my $ret = caca_fill_ellipse($!cv, $x, $y, $x-radius, $y-radius, $char.ord);
-    self._check_return_result($ret);
+    self._check_return_result($ret)
 }
 
 method triangle(Int $x1, Int $y1, Int $x2, Int $y2, Int $x3, Int $y3, Str $char = '#') {
     self._check_canvas_handle;
     self._ensure_one_char($char);
     my $ret = caca_draw_triangle($!cv, $x1, $y1, $x2, $y2, $x3, $y3, $char.ord);
-    self._check_return_result($ret);
+    self._check_return_result($ret)
 }
 
 method thin-triangle(Int $x1, Int $y1, Int $x2, Int $y2, Int $x3, Int $y3) {
     self._check_canvas_handle;
     my $ret = caca_draw_thin_triangle($!cv, $x1, $y1, $x2, $y2, $x3, $y3);
-    self._check_return_result($ret);
+    self._check_return_result($ret)
 }
 
 method fill-triangle(Int $x1, Int $y1, Int $x2, Int $y2, Int $x3, Int $y3, Str $char = '#') {
     self._check_canvas_handle;
     self._ensure_one_char($char);
     my $ret = caca_fill_triangle($!cv, $x1, $y1, $x2, $y2, $x3, $y3, $char.ord);
-    self._check_return_result($ret);
+    self._check_return_result($ret)
 }
 
 method polyline(@points, Str $char = '#') {
@@ -210,7 +209,7 @@ method polyline(@points, Str $char = '#') {
     }
 
     my $ret = caca_draw_polyline($!cv, $x-carray, $y-carray, $size - 1, $char.ord);
-    self._check_return_result($ret);
+    self._check_return_result($ret)
 }
 
 method thin-polyline(@points) {
@@ -226,27 +225,35 @@ method thin-polyline(@points) {
     }
 
     my $ret = caca_draw_thin_polyline($!cv, $x-carray, $y-carray, $size - 1);
-    self._check_return_result($ret);
+    self._check_return_result($ret)
 }
 
 method clear {
     self._check_canvas_handle;
     my $ret = caca_clear_canvas($!cv);
-    self._check_return_result($ret);
+    self._check_return_result($ret)
 }
 
 method wait-for-keypress {
-    self._check_display_handle;
-    my $ret = caca_get_event($!dp, CACA_EVENT_KEY_PRESS, 0, -1);
-    #TODO how to handle timeout and match return type
+    self.wait-for-event(CACA_EVENT_KEY_PRESS, -1);
 }
 
-method wait-for-event(CacaEvent $event = key-press) returns Int {
+method wait-for-event($mask = event-any, $timeout = 0) returns Int {
     self._check_display_handle;
-    #TODO pass timeout and handle return type
-    caca_get_event($!dp, $event, 0, -1);
+    #TODO fill event structure (3rd parameter)
+    caca_get_event($!dp, $mask, 0, $timeout)
 }
 
 method random-color returns CacaColor {
-    return CacaColor((black..white).pick);
+    CacaColor((black..white).pick)
+}
+
+method width() returns Int {
+    self._check_display_handle;
+    caca_get_display_width($!dp)
+}
+
+method height() returns Int {
+    self._check_display_handle;
+    caca_get_display_height($!dp)
 }
