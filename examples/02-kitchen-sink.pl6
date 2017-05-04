@@ -46,7 +46,7 @@ given my $o = Terminal::Caca.new {
     my @points = ( ($_, r) for ^MAX );
     .color(light-blue, black);
     .polyline(@points, 'P');
-    @points = ( ($_, r) for ^MAX );
+    @points    = ( ($_, r) for ^MAX );
     .color(yellow, blue);
     .thin-polyline(@points);
 
