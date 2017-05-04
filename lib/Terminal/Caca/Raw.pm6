@@ -193,6 +193,11 @@ sub caca_draw_thin_polyline(CacaCanvas, CArray[int32], CArray[int32], int32)
     is export
     is native(&caca-library) { * }
 
+sub caca_set_cursor(CacaDisplay, int32)
+    returns int32
+    is export
+    is native(&caca-library) { * }
+
 =begin TODO
 
 __extern int caca_fill_triangle_textured(caca_canvas_t *cv,

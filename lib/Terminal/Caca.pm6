@@ -277,3 +277,8 @@ method mouse-position {
     x => self.mouse-x,
     y => self.mouse-y
 }
+
+method cursor(Bool $enable) {
+    self._check_display_handle;
+    caca_set_cursor($!dp, $enable ?? 1 !! 0)
+}
