@@ -103,7 +103,8 @@ given my $o = Terminal::Caca.new {
 
     my @colors;
     for @faces {
-        @colors.push($o.random-color);
+        my $color = CacaColor((blue..white).pick);
+        @colors.push($color);
     }
     for ^359*2 -> $angle {
         .clear;
