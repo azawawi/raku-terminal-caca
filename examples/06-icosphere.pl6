@@ -101,43 +101,65 @@ given my $o = Terminal::Caca.new {
     @faces.push([8, 6, 7]);
     @faces.push([9, 8, 1]);
 
+    sub transform-point($point, $angle) {
+        my $x         = @p[$point][0];
+        my $y         = @p[$point][1];
+        my $z         = @p[$point][2];
+        ($x, $y, $z)  = rotate3d-x($x, $y, $z, $angle);
+        ($x, $y, $z)  = rotate3d-y($x, $y, $z, $angle);
+        ($x, $y, $z)  = rotate3d-z($x, $y, $z, $angle);
+        my ($px, $py) = to_2d($x, $y, $z);
+        $px           = $px * 15 + 40;
+        $py           = $py * 7 + 15;
+        $px, $py, $z
+    }
+
     my @colors;
     for @faces {
         my $color = CacaColor((blue..white).pick);
         @colors.push($color);
     }
     for ^359*2 -> $angle {
+        .color(white,black);
         .clear;
         my $face-index = 0;
+        my @faces-z;
         for @faces -> @face {
             my @points;
+            my @z-points;
             for @face -> $point {
-                # say @point;
-                my $x         = @p[$point][0];
-                my $y         = @p[$point][1];
-                my $z         = @p[$point][2];
-                ($x, $y, $z)  = rotate3d-x($x, $y, $z, $angle);
-                ($x, $y, $z)  = rotate3d-y($x, $y, $z, $angle);
-                ($x, $y, $z)  = rotate3d-z($x, $y, $z, $angle);
-                my ($px, $py) = to_2d($x, $y, $z);
-                $px           = $px * 15 + 40;
-                $py           = $py * 7 + 15;
+                my ($px, $py, $z) = transform-point($point, $angle);
                 @points.push( ($px.Int, $py.Int ));
+                #@z-points.push( z => $z, points => @points );
             }
-
-            # Draw a 3D Cube in 2D space
-            .color(@colors[$face-index], @colors[$face-index]);
+            my $center-x = (@points[0][0] + @points[1][0] + @points[2][0]) / 3;
+            my $center-y = (@points[0][1] + @points[1][1] + @points[2][1]) / 3;
+            #say "$center-x, $center-y";
+            my $distance = sqrt($center-x ** 2 + $center-y ** 2);
+            @faces-z.push: %(
+                    face => @face,
+                    color => @colors[$face-index],
+                    points => @points,
+                    distance => $distance
+            );
             $face-index++;
+        }
+
+        #@faces-z = @faces-z.sort( {$^b<distance> leg $^a<distance>}, :More);
+        for @faces-z -> %rec {
+            my @points = @(%rec<points>);
+            my $color  = %rec<color>;
+
+            # http://stackoverflow.com/questions/524755/finding-center-of-2d-triangle
+            #die "Zzzz: $distance";
+
+            .color($color, $color);
+            #.fill-triangle(
             .thin-triangle(
                 @points[0][0],@points[0][1],
                 @points[1][0],@points[1][1],
                 @points[2][0],@points[2][1],
             );
-            .color(green, black);
-            my $i = 0;
-            for @points -> $point {
-                .text($point[0], $point[1], "" ~ $i++);
-            }
         }
         .refresh;
         sleep 0.042 / 2;
