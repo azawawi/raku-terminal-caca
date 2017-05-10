@@ -101,8 +101,13 @@ given my $o = Terminal::Caca.new {
     @faces.push([8, 6, 7]);
     @faces.push([9, 8, 1]);
 
-    for ^359 -> $angle {
+    my @colors;
+    for @faces {
+        @colors.push($o.random-color);
+    }
+    for ^359*2 -> $angle {
         .clear;
+        my $face-index = 0;
         for @faces -> @face {
             my @points;
             for @face -> $point {
@@ -118,11 +123,15 @@ given my $o = Terminal::Caca.new {
                 $py           = $py * 7 + 15;
                 @points.push( ($px.Int, $py.Int ));
             }
-            @points.push( @points[0] );
 
             # Draw a 3D Cube in 2D space
-            .color(white, black);
-            .thin-polyline(@points);
+            .color(@colors[$face-index], @colors[$face-index]);
+            $face-index++;
+            .thin-triangle(
+                @points[0][0],@points[0][1],
+                @points[1][0],@points[1][1],
+                @points[2][0],@points[2][1],
+            );
             .color(green, black);
             my $i = 0;
             for @points -> $point {
