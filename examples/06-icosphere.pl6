@@ -128,6 +128,8 @@ given my $o = Terminal::Caca.new {
         .color(white,white);
         .clear;
 
+        .title(sprintf("Icosphere Animation, angle: %s", $angle % 360));
+
         # Transform 3D into 2D and rotate for all icosphere faces
         my $face-index = 0;
         my @faces-z;
