@@ -115,14 +115,15 @@ given my $o = Terminal::Caca.new {
 
     # Initialize random face colors
     my @colors;
-    my $flip;
+    my $color-index = 0;
     for @faces {
-        my $color = $flip ?? light-green !! green;
-        @colors.push($color);
-        $flip = !$flip;
+        state $face-index = 0;
+        my @color = 15, 0, $color-index % 16, 0;
+        $color-index++;
+        @colors.push(@color);
     }
 
-    for ^359*2 -> $angle {
+    for ^359*10 -> $angle {
 
         # Clear canvas
         .color(white,white);
@@ -161,10 +162,12 @@ given my $o = Terminal::Caca.new {
         # Draw all faces
         for @faces-z -> %rec {
             my @points = @(%rec<points>);
-            my $color  = %rec<color>;
+            my @color  = @(%rec<color>);
 
             # Draw filled triangle
-            .color($color, $color);
+            #.color($color, $color);
+            .color(@color[0], @color[1], @color[2], @color[3],
+                @color[0], @color[1], @color[2], @color[3]);
             .fill-triangle(
                 @points[0][0],@points[0][1],
                 @points[1][0],@points[1][1],
@@ -180,9 +183,6 @@ given my $o = Terminal::Caca.new {
 
         # Refresh to show canvas on terminal
         .refresh;
-
-        # Sleep a bit
-        sleep 0.042 / 2;
     }
 
     # Cleanup on scope exit

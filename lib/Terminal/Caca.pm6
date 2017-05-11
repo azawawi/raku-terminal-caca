@@ -95,13 +95,23 @@ method title(Str $title) {
     self._check_return_result($ret)
 }
 
-method color(
+multi method color(
     CacaColor $fore-color = white,
     CacaColor $back-color = black)
 {
     self._check_canvas_handle;
     my $ret = caca_set_color_ansi($!cv, $fore-color, $back-color);
     self._check_return_result($ret)
+}
+
+multi method color(
+    Int $fore-alpha, Int $fore-red, Int $fore-green, Int $fore-blue,
+    Int $back-alpha, Int $back-red, Int $back-green, Int $back-blue)
+{
+    self._check_canvas_handle;
+    my $fore-argb-color = $fore-alpha +< 12 +| $fore-red +< 8 +| $fore-green +< 4 +| $fore-blue;
+    my $back-argb-color = $back-alpha +< 12 +| $back-red +< 8 +| $back-green +< 4 +| $back-blue;
+    caca_set_color_argb($!cv, $fore-argb-color, $back-argb-color)
 }
 
 method text(Int $x, Int $y, Str $string) returns Int {

@@ -257,3 +257,8 @@ sub caca_free_dither(CacaDither)
     returns int32
     is export
     is native(&caca-library) { * }
+
+sub caca_set_color_argb(CacaCanvas, uint16, uint16)
+    returns int32
+    is export
+    is native(&caca-library) { * }
