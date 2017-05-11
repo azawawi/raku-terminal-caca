@@ -115,15 +115,17 @@ given my $o = Terminal::Caca.new {
 
     # Initialize random face colors
     my @colors;
+    my $flip;
     for @faces {
-        my $color = CacaColor((blue..white).pick);
+        my $color = $flip ?? light-green !! green;
         @colors.push($color);
+        $flip = !$flip;
     }
 
     for ^359*2 -> $angle {
 
         # Clear canvas
-        .color(white,black);
+        .color(white,white);
         .clear;
 
         # Transform 3D into 2D and rotate for all icosphere faces
@@ -161,8 +163,13 @@ given my $o = Terminal::Caca.new {
 
             # Draw filled triangle
             .color($color, $color);
-            #.thin-triangle(
             .fill-triangle(
+                @points[0][0],@points[0][1],
+                @points[1][0],@points[1][1],
+                @points[2][0],@points[2][1],
+            );
+            .color(black, black);
+            .thin-triangle(
                 @points[0][0],@points[0][1],
                 @points[1][0],@points[1][1],
                 @points[2][0],@points[2][1],
