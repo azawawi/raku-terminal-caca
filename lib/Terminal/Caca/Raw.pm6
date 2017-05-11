@@ -72,6 +72,11 @@ sub caca_set_color_ansi(CacaCanvas, uint8, uint8)
     is export
     is native(&caca-library) { * }
 
+sub caca_put_char(CacaCanvas, int32, int32, uint32)
+    returns int32
+    is export
+    is native(&caca-library) { * }
+
 sub caca_put_str(CacaCanvas, int32, int32, Str)
     returns int32
     is export

@@ -119,6 +119,11 @@ method text(Int $x, Int $y, Str $string) returns Int {
     caca_put_str($!cv, $x, $y, $string)
 }
 
+method char(Int $x, Int $y, Str $char) returns Int {
+    self._check_canvas_handle;
+    caca_put_char($!cv, $x, $y, $char[0].ord)
+}
+
 method line(Int $x1, Int $y1, Int $x2, Int $y2, Str $char = '#') {
     self._check_canvas_handle;
     self._ensure_one_char($char);
