@@ -113,54 +113,66 @@ given my $o = Terminal::Caca.new {
         $px, $py, $z
     }
 
+    # Initialize random face colors
     my @colors;
     for @faces {
         my $color = CacaColor((blue..white).pick);
         @colors.push($color);
     }
+
     for ^359*2 -> $angle {
+
+        # Clear canvas
         .color(white,black);
         .clear;
+
+        # Transform 3D into 2D and rotate for all icosphere faces
         my $face-index = 0;
         my @faces-z;
         for @faces -> @face {
             my @points;
             my @z-points;
+            my $sum-z = 0;
             for @face -> $point {
                 my ($px, $py, $z) = transform-point($point, $angle);
                 @points.push( ($px.Int, $py.Int ));
-                #@z-points.push( z => $z, points => @points );
+                $sum-z += $z;
             }
-            my $center-x = (@points[0][0] + @points[1][0] + @points[2][0]) / 3;
-            my $center-y = (@points[0][1] + @points[1][1] + @points[2][1]) / 3;
-            #say "$center-x, $center-y";
-            my $distance = sqrt($center-x ** 2 + $center-y ** 2);
+
+            # Calculate average z value for all triangle points
+            my $avg-z = $sum-z / @points.elems;
+
             @faces-z.push: %(
-                    face => @face,
-                    color => @colors[$face-index],
-                    points => @points,
-                    distance => $distance
+                face     => @face,
+                color    => @colors[$face-index],
+                points   => @points,
+                avg-z    => $avg-z,
             );
             $face-index++;
         }
 
-        #@faces-z = @faces-z.sort( {$^b<distance> leg $^a<distance>}, :More);
+        # Sort by z to draw farthest first
+        @faces-z = @faces-z.sort( { %^a<avg-z> <=> %^b<avg-z> } ).reverse;
+
+        # Draw all faces
         for @faces-z -> %rec {
             my @points = @(%rec<points>);
             my $color  = %rec<color>;
 
-            # http://stackoverflow.com/questions/524755/finding-center-of-2d-triangle
-            #die "Zzzz: $distance";
-
+            # Draw filled triangle
             .color($color, $color);
-            #.fill-triangle(
-            .thin-triangle(
+            #.thin-triangle(
+            .fill-triangle(
                 @points[0][0],@points[0][1],
                 @points[1][0],@points[1][1],
                 @points[2][0],@points[2][1],
             );
         }
+
+        # Refresh to show canvas on terminal
         .refresh;
+
+        # Sleep a bit
         sleep 0.042 / 2;
     }
 
