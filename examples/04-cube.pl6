@@ -138,7 +138,6 @@ given my $o = Terminal::Caca.new {
         }
 
         .refresh;
-        sleep 0.042 / 2;
     }
 
     # Cleanup on scope exit
