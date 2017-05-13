@@ -47,51 +47,96 @@ given my $o = Terminal::Caca.new {
         $rx, $ry, $rz;
     }
 
-    my @p =
-        (0,0,0), # 0
-        (1,0,0), # 1
-        (1,1,0), # 2
-        (0,1,0), # 3
-        (0,0,1), # 4
-        (1,0,1), # 5
-        (1,1,1), # 6
-        (0,1,1); # 7
+    sub transform-vertex(@vertex, $angle) {
+        my $x         = @vertex[0];
+        my $y         = @vertex[1];
+        my $z         = @vertex[2];
+        ($x, $y, $z)  = rotate3d-x($x, $y, $z, $angle);
+        ($x, $y, $z)  = rotate3d-y($x, $y, $z, $angle);
+        ($x, $y, $z)  = rotate3d-z($x, $y, $z, $angle);
+        my ($px, $py) = to_2d($x, $y, $z);
+        $px           = $px * 15 + 40;
+        $py           = $py * 7 + 15;
+        $px, $py, $z
+    }
 
-    my @sides =
-        ( @p[0], @p[1], @p[2], @p[3], ),
-        ( @p[4], @p[5], @p[6], @p[7], ),
-        ( @p[5], @p[1], @p[2], @p[6], ),
-        ( @p[4], @p[0], @p[3], @p[7], ),
-        ( @p[6], @p[2], @p[3], @p[7], ),
-        ( @p[4], @p[0], @p[3], @p[7], );
+    my @triangles =
+     ( (-1.0,-1.0,-1.0),   (-1.0, -1.0,  1.0), (-1.0,  1.0,  1.0) ),
+     ( (1.0,  1.0, -1.0),  (-1.0, -1.0, -1.0), (-1.0,  1.0, -1.0) ),
+     ( (1.0, -1.0,  1.0),  (-1.0, -1.0, -1.0), (1.0, -1.0, -1.0)  ),
+     ( (1.0,  1.0, -1.0),  (1.0, -1.0, -1.0),  (-1.0, -1.0, -1.0) ),
+     ( (-1.0, -1.0, -1.0), (-1.0,  1.0,  1.0), (-1.0,  1.0, -1.0) ),
+     ( (1.0, -1.0,  1.0),  (-1.0, -1.0,  1.0), (-1.0, -1.0, -1.0) ),
+     ( (-1.0,  1.0,  1.0), (-1.0, -1.0,  1.0), (1.0, -1.0,  1.0)  ),
+     ( (1.0,  1.0,  1.0),  (1.0, -1.0, -1.0),  (1.0,  1.0, -1.0)  ),
+     ( (1.0, -1.0, -1.0),  (1.0,  1.0,  1.0),  (1.0, -1.0,  1.0)  ),
+     ( (1.0,  1.0,  1.0),  (1.0,  1.0, -1.0),  (-1.0,  1.0, -1.0) ),
+     ( (1.0,  1.0,  1.0),  (-1.0,  1.0, -1.0), (-1.0,  1.0,  1.0) ),
+     ( (1.0,  1.0,  1.0),  (-1.0,  1.0,  1.0), (1.0,-1.0, 1.0) );
+
+     # Initialize random face colors
+     my @colors;
+     for 0..15 -> $color-index {
+         my @color = 15, 0, $color-index, 0;
+         @colors.push(@color);
+     }
 
     for ^359 -> $angle {
+        .color(white, white);
         .clear;
-        for @sides -> @side {
-            my @points;
-            for @side -> @point {
-                my $x         = @point[0] * 2 - 1;
-                my $y         = @point[1] * 2 - 1;
-                my $z         = @point[2] * 2 - 1;
-                ($x, $y, $z)  = rotate3d-x($x, $y, $z, $angle);
-                ($x, $y, $z)  = rotate3d-y($x, $y, $z, $angle);
-                ($x, $y, $z)  = rotate3d-z($x, $y, $z, $angle);
-                my ($px, $py) = to_2d($x, $y, $z);
-                $px           = $px * 15 + 40;
-                $py           = $py * 7 + 15;
-                @points.push( ($px.Int, $py.Int ));
-            }
-            @points.push( @points[0] );
 
-            # Draw a 3D Cube in 2D space
-            .color(white, black);
-            .thin-polyline(@points);
-            .color(green, black);
-            my $i = 0;
-            for @points -> $point {
-                .text($point[0], $point[1], "" ~ $i++);
+        # Transform 3D into 2D and rotate for all icosphere faces
+        my @faces-z;
+        for @triangles -> @triangle {
+            state $face-index = 0;
+            my @points;
+            my @z-points;
+            my $sum-z = 0;
+            for @triangle -> @point {
+                my ($px, $py, $z) = transform-vertex(@point, $angle);
+                @points.push( ($px.Int, $py.Int ));
+                $sum-z += $z;
             }
+
+            # Calculate average z value for all triangle points
+            my $avg-z = $sum-z / @points.elems;
+
+            @faces-z.push: %(
+                face     => @triangle,
+                color    => @colors[$face-index],
+                points   => @points,
+                avg-z    => $avg-z,
+            );
+            $face-index++;
         }
+
+        # Sort by z to draw farthest first
+        @faces-z = @faces-z.sort( { %^a<avg-z> <=> %^b<avg-z> } ).reverse;
+
+        # Draw all faces
+        for @faces-z -> %rec {
+            state $face-index = 0;
+            my @points        = @( %rec<points> );
+            my @color         = @( @colors[$face-index % @colors.elems] );
+
+            # Draw filled triangle
+            .color(@color[0], @color[1], @color[2], @color[3],
+                @color[0], @color[1], @color[2], @color[3]);
+            .fill-triangle(
+                @points[0][0],@points[0][1],
+                @points[1][0],@points[1][1],
+                @points[2][0],@points[2][1],
+            );
+            .color(black, black);
+            .thin-triangle(
+                 @points[0][0],@points[0][1],
+                 @points[1][0],@points[1][1],
+                 @points[2][0],@points[2][1],
+            );
+
+            $face-index++;
+        }
+
         .refresh;
         sleep 0.042 / 2;
     }
