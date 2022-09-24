@@ -1,8 +1,7 @@
-#!/usr/bin/env perl6
+#!/usr/bin/env raku 
 
 use v6;
 
-use lib 'lib';
 use Terminal::Caca;
 use Terminal::Caca::Point2D;
 use Terminal::Caca::Point3D;
