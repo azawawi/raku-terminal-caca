@@ -24,7 +24,6 @@ jobs:
         with:
           raku-version: ${{ matrix.raku-version }}
       - name: Install Dependencies
-        run: zef install --/test --test-depends --deps-only .
         run: |
           # Install libcaca
           if [ "$RUNNER_OS" == "Linux" ]; then
