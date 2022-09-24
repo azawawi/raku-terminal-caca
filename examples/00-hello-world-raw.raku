@@ -9,10 +9,10 @@ my $dp   = caca_create_display($NULL);
 my $cv   = caca_get_canvas($dp);
 
 # Set window title
-caca_set_display_title($dp, "Perl 6 rocks");
+caca_set_display_title($dp, "Raku rocks");
 
 # Say hello world
-my $text = ' Hello world, from Perl 6! ';
+my $text = ' Hello world, from Raku! ';
 caca_set_color_ansi($cv, CACA_WHITE, CACA_BLUE);
 caca_put_str($cv, 10, 10, $text);
 

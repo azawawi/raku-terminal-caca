@@ -1,6 +1,8 @@
-# Terminal::Caca [![Build Status](https://travis-ci.org/azawawi/perl6-terminal-caca.svg?branch=master)](https://travis-ci.org/azawawi/perl6-terminal-caca)
+# Terminal::Caca
+[![Actions
+Status](https://github.com/azawawi/raku-terminal-caca/workflows/test/badge.svg)](https://github.com/azawawi/raku-terminal-caca/actions)
 
-Terminal::Caca - Use libcaca (Colour AsCii Art library) API in Perl 6
+Terminal::Caca - Use libcaca (Colour AsCii Art library) API in Raku 
 
 **NOTE:** The library is currently **experimental**. You have been warned :)
 
@@ -9,17 +11,17 @@ you need to access raw API for any reason, please use `Terminal::Caca::Raw`.
 
 ## Example
 
-```Perl6
+```Raku
 use v6;
 use Terminal::Caca;
 
 # Initialize library
 given my $o = Terminal::Caca.new {
     # Set window title
-    .title("Perl 6 rocks");
+    .title("Raku rocks");
 
     # Say hello world
-    my $text = ' Hello world, from Perl 6! ';
+    my $text = ' Hello world, from Raku! ';
     .color(white, blue);
     .text(10, 10, $text);
 
@@ -63,19 +65,19 @@ $ zef install Terminal::Caca
 
 - To run tests:
 ```
-$ prove -ve "perl6 -Ilib"
+$ prove --ext .rakutest -ve "raku -I."
 ```
 
 - To run all tests including author tests (Please make sure
 [Test::Meta](https://github.com/jonathanstowe/Test-META) is installed):
 ```
 $ zef install Test::META
-$ AUTHOR_TESTING=1 prove -e "perl6 -Ilib"
+$ AUTHOR_TESTING=1 prove --ext .rakutest -ve "raku -I."
 ```
 
 ## Author
 
-Ahmad M. Zawawi, azawawi on #perl6, https://github.com/azawawi/
+Ahmad M. Zawawi, azawawi on #raku, https://github.com/azawawi/
 
 ## License
 

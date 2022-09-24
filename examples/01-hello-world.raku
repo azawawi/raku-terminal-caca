@@ -6,10 +6,10 @@ use Terminal::Caca;
 # Initialize library
 given my $o = Terminal::Caca.new {
     # Set window title
-    .title("Perl 6 rocks");
+    .title("Raku rocks");
 
     # Say hello world
-    my $text = ' Hello world, from Perl 6! ';
+    my $text = ' Hello world, from Raku! ';
     .color(white, blue);
     .text(10, 10, $text);
 

@@ -11,7 +11,7 @@ given my $o = Terminal::Caca.new {
     my sub r { (^MAX).pick }
 
     # Set the window title
-    .title("Perl 6 rocks");
+    .title("Raku rocks");
 
     # Draw random line types
     .color(yellow, black);
@@ -51,7 +51,7 @@ given my $o = Terminal::Caca.new {
 
     # Draw randomly-colored and positioned text
     .color(.random-color, .random-color);
-    .text(r, r, "Hello world from Perl 6!");
+    .text(r, r, "Hello world from Raku!");
     .text(r, r, "Mouse position: " ~ .mouse-position.perl);
     .text(r, r, "Window Size: "    ~ .size.perl);
 

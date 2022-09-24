@@ -1,7 +1,7 @@
 {
     "auth"          : "github:azawawi",
     "authors"       : [ "Ahmad M. Zawawi" ],
-    "description"   : "Use libcaca (Colour AsCii Art library) API in Perl 6",
+    "description"   : "Use libcaca (Colour AsCii Art library) API in Raku",
     "name"          : "Terminal::Caca",
     "license"       : "MIT",
     "perl"          : "6.*",
@@ -20,5 +20,5 @@
     "test-depends"  : [
         "Test"
     ],
-    "version"       : "0.5.4"
+    "version"       : "0.5.5"
 }
